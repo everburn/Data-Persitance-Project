@@ -19,7 +19,7 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    
+ 
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +37,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+
     }
 
     private void Update()

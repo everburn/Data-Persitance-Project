@@ -16,7 +16,6 @@ public class SalvaNomeX : MonoBehaviour
     public void StoreName()
     {
         nomeGiocatore = inputNomeTesto.GetComponent<Text>().text;
-        Debug.Log("Ho Preso il nome!" + nomeGiocatore);
     }
 
     [System.Serializable]
@@ -49,9 +48,8 @@ public class SalvaNomeX : MonoBehaviour
 
             nomeGiocatore = data.playerName;
             punteggioGiocatore = data.playerScore;
+
+            Debug.Log("Ho Caricato!" + json);
         }
-
-        Debug.Log("Ho Caricato!");
     }
-
 }

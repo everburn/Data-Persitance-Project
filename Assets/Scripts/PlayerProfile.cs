@@ -7,8 +7,6 @@ public class PlayerProfile : MonoBehaviour
 {
 
     public static PlayerProfile Instance;
-    public Text inputNomeGiocatore ;
-    string nomeGiocatore;
 
     private void Awake()
     {
@@ -20,31 +18,4 @@ public class PlayerProfile : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-
-    private void Start()
-    {
-        
-    }
-
-
-   // public void nuovoNomeScelto ( Text nomeGiocatore )
-   // {
-   //     nomeGiocatore = GetComponent<Text>();
-   //     PlayerProfile.Instance.inputNomeGiocatore = nomeGiocatore;
-   //
-   //     return;
-  //  }
-
-   // private void Start()
-   // {
-   //     if (PlayerProfile.Instance != null)
-   //     {
-   //         SettaNomeGiocatore(PlayerProfile.Instance.settaNomeGiocatore);
-   //     }
-   // }
-
-   // public void SettaNomeGiocatore ( Text settaNomeGiocatore)
-   //  {
-  //      PlayerProfile.Instance.profiloGiocatore = settaNomeGiocatore ;
-  //  }
 }
