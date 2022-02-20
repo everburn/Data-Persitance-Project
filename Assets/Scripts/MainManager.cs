@@ -18,7 +18,7 @@ public class MainManager : MonoBehaviour
 
     private bool m_Started = false;
     private int m_Points;
-    public int highScore = 0;
+    public int highScore;
 
     private bool m_GameOver = false;
     private string nomeGiocatore;
@@ -132,7 +132,7 @@ public class MainManager : MonoBehaviour
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
             nomeGiocatore = data.playerName;
-            punteggioGiocatore = data.playerScore;
+            highScore = data.playerScore;
 
             Debug.Log("Ho Caricato!" + json);
         }
@@ -141,7 +141,7 @@ public class MainManager : MonoBehaviour
     public void KeepHighScore()
     {
         LoadHighScore();
-        insideScore.text = $"{nomeGiocatore} : {punteggioGiocatore}";
+        insideScore.text = $"{nomeGiocatore} : {highScore}";
     }
 }
 
