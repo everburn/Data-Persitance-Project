@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Unity.IO;
+using System.IO;
 
 public class MainManager : MonoBehaviour
 {
@@ -13,20 +15,25 @@ public class MainManager : MonoBehaviour
     public Text ScoreText;
     public Text insideScore;
     public GameObject GameOverText;
-    
+
     private bool m_Started = false;
     private int m_Points;
-    
-    private bool m_GameOver = false;
+    public int highScore = 0;
 
- 
+    private bool m_GameOver = false;
+    private string nomeGiocatore;
+    public int punteggioGiocatore;
+
+    public SalvaNomeX salvaNomeX;
+
+
     // Start is called before the first frame update
     void Start()
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
-        int[] pointCountArray = new [] {1,1,2,2,5,5};
+
+        int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
@@ -38,7 +45,9 @@ public class MainManager : MonoBehaviour
             }
         }
 
-
+        salvaNomeX = GameObject.Find("Player Profile").GetComponent<SalvaNomeX>();
+        nomeGiocatore = salvaNomeX.nomeGiocatore;
+        KeepHighScore();
     }
 
     private void Update()
@@ -69,13 +78,70 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
-    }
 
+        return;
+    }
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        CheckScore();
+    }
+ 
+    public void CheckScore() // Controlla Punteggio, se superiore salva
+    {
+        if ( m_Points > highScore)
+        {
+            Debug.Log("Punteggio superiore");
+            highScore = m_Points;
+            SaveHighScore();
+        }
+        else
+        {
+            Debug.Log("Punteggio non superiore!");
+        }
     }
 
-    
+    [System.Serializable]
+    class SaveData
+    {
+        public string playerName;
+        public int playerScore;
+    }
+
+    public void SaveHighScore()
+    {
+        
+        SaveData data = new SaveData();
+        data.playerName = nomeGiocatore;
+        data.playerScore = highScore;
+
+        string json = JsonUtility.ToJson(data);
+
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+
+        Debug.Log("Ho Salvato!" + json);
+    }
+
+    public void LoadHighScore()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+            nomeGiocatore = data.playerName;
+            punteggioGiocatore = data.playerScore;
+
+            Debug.Log("Ho Caricato!" + json);
+        }
+    }
+
+    public void KeepHighScore()
+    {
+        LoadHighScore();
+        insideScore.text = $"{nomeGiocatore} : {punteggioGiocatore}";
+    }
 }
+
