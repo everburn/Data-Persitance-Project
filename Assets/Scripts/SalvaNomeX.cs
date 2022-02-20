@@ -16,7 +16,7 @@ public class SalvaNomeX : MonoBehaviour
     public void StoreName()
     {
         nomeGiocatore = inputNomeTesto.GetComponent<Text>().text;
-        Debug.Log("Ho Preso il nome!");
+        Debug.Log("Ho Preso il nome!" + nomeGiocatore);
     }
 
     [System.Serializable]
@@ -36,9 +36,7 @@ public class SalvaNomeX : MonoBehaviour
 
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
 
-        Debug.Log("Ho Salvato!");
-        Debug.Log(json);
-
+        Debug.Log("Ho Salvato!" + json);
     }
 
     public void LoadName()
